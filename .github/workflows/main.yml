@@ -7,36 +7,15 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-      - name: Depolama Alanı Aç
-        run: sudo rm -rf /usr/share/dotnet /etc/mysql /usr/local/lib/android
+      - name: Baslangic
+        run: echo "Sistem atesleniyor kanka!"
 
-      - name: Sistem Araçlarını Kur
+      - name: Depolama Alani Ac
+        run: |
+          sudo rm -rf /usr/share/dotnet /etc/mysql /usr/local/lib/android
+          df -h
+
+      - name: Sistem Araclarini Kur
         run: |
           sudo apt-get update
           sudo apt-get install -y bc build-essential zip curl libc6-dev libncurses5-dev libssl-dev x11proto-core-dev libx11-dev libgl1-mesa-dev g++-multilib libxml2-utils xsltproc unzip python3 git
-
-      - name: Repo Aracını Kur
-        run: |
-          mkdir ~/bin
-          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
-          chmod a+x ~/bin/repo
-          sudo ln -sf ~/bin/repo /usr/bin/repo
-
-      - name: Kaynak Kodlarını İndir (LineageOS 18.1)
-        run: |
-          mkdir rom
-          cd rom
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
-          repo init -u https://github.com/LineageOS/android.git -b lineage-18.1 --depth=1
-          
-          # i9500 ja3g dosyalarını buraya ekliyoruz
-          mkdir -p .repo/local_manifests
-          echo '<?xml version="1.0" encoding="UTF-8"?>
-          <manifest>
-            <project name="GearLabs/android_device_samsung_ja3g" path="device/samsung/ja3g" remote="github" revision="lineage-18.1" />
-            <project name="GearLabs/android_kernel_samsung_exynos5410" path="kernel/samsung/exynos5410" remote="github" revision="lineage-18.1" />
-            <project name="GearLabs/android_vendor_samsung_ja3g" path="vendor/samsung/ja3g" remote="github" revision="lineage-18.1" />
-          </manifest>' > .repo/local_manifests/ja3g.xml
-          
-          repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
