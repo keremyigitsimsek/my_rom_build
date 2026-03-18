@@ -1,57 +1,24 @@
-name: i9500_A11_Full_Power_Build
+name: i9500_Emergency_Test
 
 on:
   workflow_dispatch:
 
 jobs:
-  build_rom:
-    runs-on: ubuntu-20.04
+  quick_check:
+    runs-on: ubuntu-latest
+    
     steps:
-      - name: System_Sync
+      - name: Terminal_Selami
         run: |
-          sudo apt-get update -y
-          sudo apt-get install -y bc build-essential zip curl git libstdc++6 openjdk-11-jdk python3
-          git config --global user.email "kanka@i9500.com"
-          git config --global user.name "Kerem"
-
-      - name: Repo_Init
+          echo "Selamunaleykum kanka, sistem ayakta!"
+          echo "Islemci Mimarisi:"
+          uname -m
+          echo "Android 11 Hazirliklari Tamam mi?"
+          date
+          
+      - name: Runner_Hiz_Testi
         run: |
-          mkdir -p ~/bin
-          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
-          chmod a+x ~/bin/repo
-          export PATH=~/bin:$PATH
-          repo init -u https://github.com/LineageOS/android.git -b lineage-18.1
-
-      - name: Device_Trees
-        run: |
-          git clone https://github.com/LineageOS/android_device_samsung_i9500.git device/samsung/i9500
-          git clone https://github.com/LineageOS/android_kernel_samsung_exynos5410.git kernel/samsung/exynos5410
-          git clone https://github.com/LineageOS/android_vendor_samsung_i9500.git vendor/samsung/i9500
-
-      - name: Java_Environment
-        run: |
-          export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-          export PATH=$JAVA_HOME/bin:$PATH
-
-      - name: Build_Start
-        run: |
-          source build/envsetup.sh
-          breakfast i9500
-          mka bacon -j$(nproc)
-
-      - name: Final_Check
-        run: |
-          ls -l out/target/product/i9500/*.zip
-          echo "Operasyon bitti kanka, S4 hazir!"
-
-      - name: Optimization_Layer
-        run: |
-          echo "Islemci turbo moda aliniyor..."
-          echo "Ram yonetimi optimize ediliyor..."
-          echo "Android 11 cekirdegi Android 17 arayuzuyle harmanlaniyor..."
-
-      - name: Upload_Result
-        uses: actions/upload-artifact@v4
-        with:
-          name: i9500-A11-ROM
-          path: out/target/product/i9500/*.zip
+          echo "Su an GitHub sunucusundayiz."
+          echo "I9500 icin yol yapiliyor..."
+          sleep 5
+          echo "Operasyon Basarili: Result GUM!"
